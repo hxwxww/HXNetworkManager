@@ -1,0 +1,6 @@
+framework module Pods_HXNetworkManager {
+  umbrella header "Pods-HXNetworkManager-umbrella.h"
+
+  export *
+  module * { export * }
+}
