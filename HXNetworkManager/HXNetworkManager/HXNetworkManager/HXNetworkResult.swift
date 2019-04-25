@@ -33,11 +33,29 @@ extension HXNetworkResultType {
             return
         }
         /// 验证obj是否为nil
-        guard let dataObj = obj, !(dataObj as AnyObject).isEqual(NSNull()) else { return }
+        guard let dataObj = obj, !(dataObj as AnyObject).isEqual(NSNull()) else {
+            print("dataObj is Nil")
+            return
+        }
         /// 转模型
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: dataObj, options: .prettyPrinted),
-            let model = try? JSONDecoder().decode(T.self, from: jsonData) else { return }
-        data = model
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: dataObj, options: .prettyPrinted) else {
+            print("JSONSerialization is Error")
+            return
+        }
+        do {
+            let model = try JSONDecoder().decode(T.self, from: jsonData)
+            data = model
+        } catch DecodingError.keyNotFound(let key, let context) {
+            print("keyNotFound: \(key) is not found in JSON: \(context.debugDescription)")
+        } catch DecodingError.valueNotFound(let type, let context) {
+            print("valueNotFound: \(type) is not found in JSON: \(context.debugDescription)")
+        } catch DecodingError.typeMismatch(let type, let context) {
+            print("typeMismatch: \(type) is mismatch in JSON: \(context.debugDescription)")
+        } catch DecodingError.dataCorrupted(let context) {
+            print("dataCorrupted: \(context.debugDescription)")
+        } catch let error {
+            print("error: \(error)")
+        }
     }
     
 }
