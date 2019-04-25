@@ -1,7 +1,7 @@
 # HXNetworkManager
 Alamofire+Moya+Codable实现最简单的网络请求
 
-###使用超级简单，Model遵守Codable协议就行了
+### 使用超级简单，Model遵守Codable协议就行了
 - Model为String
 ```
 HXNetworkManager<String>().request(target: SimpleApi.simple) { (result) in
